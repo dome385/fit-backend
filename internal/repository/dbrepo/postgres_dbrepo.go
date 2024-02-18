@@ -49,7 +49,8 @@ func (m *PostgresDBRepo) AllÜbungen() ([]*models.Übung, error) {
 	return übungen, nil
 }
 
-/*func (m *PostgresDBRepo) AddÜbung(übung models.Übung) (int, error) {
+func (m *PostgresDBRepo) AddÜbung(übung models.Übung) (int, error) {
+
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
@@ -57,6 +58,14 @@ func (m *PostgresDBRepo) AllÜbungen() ([]*models.Übung, error) {
 
 	var newID int
 
-	err := m.DB:
+	err := m.DB.QueryRowContext(ctx, stmt,
+		übung.Übung,
+		übung.Sätze,
+		übung.Wiederholungen,
+		übung.Gewicht,
+	).Scan(&newID)
+	if err != nil {
+		return 0, err
+	}
+	return newID, nil
 }
-*/
